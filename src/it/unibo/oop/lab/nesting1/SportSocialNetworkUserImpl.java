@@ -4,6 +4,7 @@
 package it.unibo.oop.lab.nesting1;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import it.unibo.oop.lab.socialnetwork.SocialNetworkUserImpl;
@@ -50,15 +51,15 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
     public static final Sport BIKE;
 
     /*
-     * TODO: initialize properly these sports
+     * initialize properly these sports
      */
     static {
-        SOCCER = null;
-        F1 = null;
-        MOTOGP = null;
-        VOLLEY = null;
-        BASKET = null;
-        BIKE = null;
+        SOCCER = new Sport("Soccer");
+        F1 = new Sport("F1");
+        MOTOGP = new Sport("MotoGP");
+        VOLLEY = new Sport("Volley");
+        BASKET = new Sport("Basket");
+        BIKE = new Sport("Bike");
     }
 
     /**
@@ -112,9 +113,10 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      * @param sport
      *            a sport followed/done by the user
      */
-    // TODO
     public void addSport(final Sport sport) {
-
+    	if (!sports.contains(sport)) {
+    		sports.add(sport);
+    	}
     }
 
     /**
@@ -124,27 +126,40 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      *            sport to use as an input
      * @return true if a user likes sport s
      */
-    // TODO
     public boolean hasSport(final Sport s) {
-        return false;
+        return sports.contains(s);
     }
 
     /*
-     * TODO
+     *
      * 
      * Complete the definition of this static inner class defining a Sport along
      * with its bare name.
      */
     public static final class Sport {
+    	
+    	private String name;
+    	
+    	public Sport(String name) {
+    		this.name = name;
+    	}
+    	
         /*
-         * TODO
+         * 
          * 
          * Redefine equals so that two sports are equal only if they feature the
          * very same name. Remember that you must also redefine hashCode()!
          */
-        @Override
-        public boolean equals(final Object o) {
-            return false;
-        }
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(name);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			Sport other = (Sport) obj;
+			return this.name.equals(other.name);
+		}
     }
 }
